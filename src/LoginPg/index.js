@@ -1,47 +1,57 @@
-import React, { useState }  from "react";
-// import './style.css'
-import { Link } from 'react-router-dom';
+import React,{ useState} from "react";
+import { Link} from "react-router-dom";
+
 const Login=()=>{
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    console.log(username);
-    const handleSubmit = async (e) => {
+    const [username,setUserName]=useState('');
+    const [password,setUserPassword]=useState('');
+    const [email,setUserEmail]=useState('')
+
+
+    const handleSubmit=async (e)=>{
         e.preventDefault();
-        const data = {
-            username: username,
-            password: password
-        };
-        console.log({ data });
-        try {
-            const response = await fetch('https://dummyjson.com/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
+
+        const data={
+            username:username,
+            password:password,
+            email:email,
+            
+        }
+        try{
+            const response= await fetch('https://dummyjson.com/auth/login', {
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
                 },
-                body: JSON.stringify(data)
-            });
-            const result = await response.json();
-            console.log(result);
-        } catch (error) {
+                body:JSON.stringify(data)
+            })
+            const result= await response.json()
+            console.log({result});
+        }
+        catch(error){
             console.log(error.message);
         }
-    };
+
+    }
     return(
         <div>
             <form className="form" onSubmit={handleSubmit}>
                 <h1>Login</h1>
-                <input type="text" placeholder="Enter username"
-                onChange ={(e)=> setUsername (e.target.value)}/>
+                <input placeholder="Enter username" type="text"
+                onChange={(e)=>{setUserName(e.target.value)}}/>
                 <br/>
                 <br/>
-                <input type="text" placeholder="Enter password"
-                onChange={(e)=> setPassword (e.target.value)}/>
+                <input placeholder="Enter Email" type="email"
+                onChange={(e)=>{setUserEmail(e.target.value)}}/>
                 <br/>
                 <br/>
-                <Link to={`/products` }>
-            <button type="submit" className="view">Login</button >
-          </Link>
+                <input placeholder="Enter password" type="password"
+                onChange={(e)=>{setUserPassword(e.target.value)}}/>
+                <br/>
+                <br/>
+               {/* <a href="#products"> <button type="submit">Login</button></a> */}
+               <Link to={`/products/`}><button type="submit" className="button">Login</button></Link>
             </form>
+            
         </div>
     )
 }
